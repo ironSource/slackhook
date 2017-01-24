@@ -1,4 +1,4 @@
-package goslack
+package slackhook
 
 import (
 	"bytes"
@@ -109,7 +109,9 @@ type body struct {
 
 //Send send a message synchronously.
 func (m *Message) Send() error {
-	//fillMessageDefaults(m)
+	if len(m.service.webHook) == 0 {
+		return fmt.Errorf("missing hook url")
+	}
 	bd := body{
 		Attachments: []Attachment{
 			Attachment{
